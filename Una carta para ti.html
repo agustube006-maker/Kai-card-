@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Una carta para ti 💜</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--deep:#241552;--mid:#4a2f9b;--lav:#b9a6f0;--mist:#efe8ff;--ink:#2e1a63;--glow:#d9ccff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;color:var(--mist);font-family:'DM Sans',system-ui,sans-serif;display:flex;justify-content:center;overflow-x:hidden;
+background:radial-gradient(ellipse at 50% 0%,#7b5fd6 0,transparent 55%),linear-gradient(to bottom,var(--deep),#3a2380 60%,#6a4fc4)}
+main{width:100%;max-width:540px;padding:28px 20px 56px;display:flex;flex-direction:column;align-items:center;gap:22px;min-height:100vh;justify-content:center}
+.hand{font-family:'Caveat',cursive;font-weight:700;margin:0;text-align:center}
+.hint{font-size:1.05rem;opacity:.85;text-align:center;margin:0}
+
+#env{position:relative;width:290px;height:195px;background:#7a5cd6;border-radius:8px;cursor:pointer;border:0;padding:0;
+box-shadow:0 20px 45px rgba(10,5,35,.55),0 0 60px rgba(185,166,240,.25);transition:transform .3s}
+#env:hover{transform:translateY(-4px) rotate(-1deg)}
+#env:focus-visible,.btn:focus-visible{outline:3px solid var(--glow);outline-offset:3px}
+#env::before{content:"";position:absolute;inset:0;border-radius:8px;
+background:linear-gradient(to top right,#6246bd 50%,transparent 50%) left/50% 100% no-repeat,linear-gradient(to top left,#6c4fca 50%,transparent 50%) right/50% 100% no-repeat}
+#env .flap{position:absolute;left:0;top:0;width:100%;height:105px;background:#9577e8;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .55s}
+#env .seal{position:absolute;left:50%;top:80px;transform:translateX(-50%);font-size:2.1rem;z-index:2;animation:beat 1.3s infinite}
+#env.open .flap{transform:rotateX(180deg)}
+#env.open .seal{display:none}
+@keyframes beat{50%{transform:translateX(-50%) scale(1.18)}}
+
+#letter{display:none;width:100%;background:linear-gradient(#f7f2ff,#ece3ff);color:var(--ink);border-radius:12px;padding:30px 26px 26px;
+font-family:'Caveat',cursive;font-size:1.6rem;line-height:1.32;box-shadow:0 24px 60px rgba(10,5,35,.55);border-top:6px solid var(--lav);animation:rise .8s ease-out}
+#letter p{margin:0 0 15px;opacity:0;animation:fade .9s ease-out forwards;animation-delay:calc(var(--i) * .9s + .5s)}
+#letter .sig{text-align:right;font-size:1.9rem;margin-top:8px}
+#letter .ps{font-size:1.35rem;opacity:0;color:#5b3fb0}
+#after{opacity:0;animation:fade .9s ease-out forwards;animation-delay:9.6s;text-align:center;margin-top:20px}
+@keyframes rise{from{opacity:0;transform:translateY(60px) rotate(2deg)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.btn{font:700 1.05rem 'DM Sans',sans-serif;border:0;border-radius:999px;padding:14px 28px;cursor:pointer;color:#fff;background:linear-gradient(135deg,#8a6ae6,#6a43d0);
+box-shadow:0 8px 22px rgba(106,67,208,.5);transition:transform .15s}
+.btn:hover{transform:scale(1.05)}
+.btn.no{background:#5d4a8f;box-shadow:none}
+#ask,#done{display:none;flex-direction:column;align-items:center;gap:20px;text-align:center}
+#ask h2{font-size:2.7rem;line-height:1.1}
+.row{display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap;min-height:70px}
+#no{transition:left .25s,top .25s}
+#msg{min-height:1.4em;margin:0;color:var(--glow);font-weight:700}
+.petal{position:fixed;top:-30px;pointer-events:none;animation:fall linear forwards;z-index:9}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <section id="start" style="display:flex;flex-direction:column;align-items:center;gap:22px">
+    <h1 class="hand" id="to" style="font-size:2.6rem">Para ti</h1>
+    <button id="env" aria-label="Abrir el sobre"><span class="flap"></span><span class="seal">💜</span></button>
+    <p class="hint">Toca el sobre para abrirlo</p>
+  </section>
+
+  <article id="letter">
+    <p style="--i:0" id="hello"></p>
+    <p style="--i:1">Llevo rato pensando cómo empezar esto y la verdad es que no hay una forma elegante, así que lo digo simple: me gustas. Eso ya lo sabes. Lo que quiero hoy es que sepas lo demás.</p>
+    <p style="--i:2">No me gustas por una sola cosa. Me gustas por un montón de detalles pequeños que quizás ni notas: cómo escuchas de verdad, la risa que se te escapa antes de que alcances a taparla, y cómo logras que un día cualquiera tenga un poquito de luz.</p>
+    <p style="--i:3">Contigo el tiempo anda raro. Las horas se van volando y, al mismo tiempo, cada rato se queda guardado. Eso no me pasa con cualquiera.</p>
+    <p style="--i:4">Hay personas que llegan y, sin pedirlo, te cambian el clima por dentro. Tú eres de esas. Me dan ganas de ser mejor cuando estoy cerca tuyo, y no porque tú me lo pidas, sino porque contigo se me da natural.</p>
+    <p style="--i:5">Y quiero dejar algo claro: no te escribo esperando nada a cambio. No hay presión, no hay plazo, nada que tengas que responder hoy ni mañana. Tu amistad vale muchísimo para mí y jamás la pondría en riesgo. Solo creí que mereces saber, con palabras bonitas y no a medias, lo importante que eres.</p>
+    <p style="--i:6">Pase lo que pase, gracias por ser exactamente como eres.</p>
+    <p class="sig" style="--i:7">Con todo el cariño del mundo,<br><span id="from"></span> 💜</p>
+    <p class="ps" style="--i:8">P.D.: si te sacó una sonrisa, ya valió la pena escribirla.</p>
+    <div id="after"><button class="btn" id="next">Una última cosa…</button></div>
+  </article>
+
+  <section id="ask">
+    <h2 class="hand" id="q">¿Te saqué una sonrisa?</h2>
+    <div class="row">
+      <button class="btn" id="yes">Sí 💜</button>
+      <button class="btn no" id="no">No</button>
+    </div>
+    <p id="msg" aria-live="polite"></p>
+  </section>
+
+  <section id="done">
+    <h2 class="hand" style="font-size:3.1rem">Misión cumplida 💜</h2>
+    <p class="hint">Eso era todo lo que quería: verte sonreír. Gracias por leerla, Kai.</p>
+  </section>
+</main>
+
+<script>
+// Personaliza con la URL: ?para=Kai&de=Agustin
+const p = new URLSearchParams(location.search);
+const PARA = p.get('para') || 'Kai';
+const DE = p.get('de') || 'Agustin';
+const $ = id => document.getElementById(id);
+$('to').textContent = 'Para ' + PARA;
+$('hello').textContent = 'Hola, ' + PARA + ':';
+$('from').textContent = DE;
+$('done').querySelector('p').textContent = 'Eso era todo lo que quería: verte sonreír. Gracias por leerla, ' + PARA + '.';
+
+function petals(n){
+  const set = ['💜','🌸','✨','🪻'];
+  for (let i = 0; i < n; i++){
+    const s = document.createElement('span');
+    s.className = 'petal';
+    s.textContent = set[i % set.length];
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.fontSize = 16 + Math.random() * 24 + 'px';
+    s.style.animationDuration = 3.5 + Math.random() * 4 + 's';
+    s.style.animationDelay = Math.random() * 1.5 + 's';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 10000);
+  }
+}
+
+$('env').addEventListener('click', () => {
+  $('env').classList.add('open');
+  petals(18);
+  setTimeout(() => { $('start').style.display = 'none'; $('letter').style.display = 'block'; }, 700);
+});
+$('next').addEventListener('click', () => { $('letter').style.display = 'none'; $('ask').style.display = 'flex'; });
+
+const lines = ['Seguro te equivocaste de botón 😏','Ese botón está roto 🙈','Piénsalo bien…','El Sí te está esperando 💜','Ya, di que sí 🥺'];
+let tries = 0, scale = 1;
+const no = $('no'), yes = $('yes');
+function dodge(e){
+  e.preventDefault();
+  tries++;
+  scale = Math.min(scale + 0.18, 2.2);
+  yes.style.transform = 'scale(' + scale + ')';
+  $('msg').textContent = lines[(tries - 1) % lines.length];
+  no.style.position = 'fixed';
+  const w = no.offsetWidth, h = no.offsetHeight;
+  no.style.left = Math.random() * (innerWidth - w - 16) + 8 + 'px';
+  no.style.top = Math.random() * (innerHeight - h - 16) + 8 + 'px';
+}
+no.addEventListener('pointerenter', dodge);
+no.addEventListener('pointerdown', dodge);
+no.addEventListener('click', e => e.preventDefault());
+yes.addEventListener('click', () => {
+  $('ask').style.display = 'none';
+  no.style.display = 'none';
+  $('done').style.display = 'flex';
+  petals(60);
+});
+</script>
+</body>
+</html>
